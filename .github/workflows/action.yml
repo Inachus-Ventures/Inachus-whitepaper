@@ -1,7 +1,10 @@
 name: paper-maker
 # description: Automagically build LaTex manuscripts and push the latest PDF back to GitHub
 
-on: push
+on: 
+  push:
+    tags:
+    - '*'
 
 # branding:
 #   icon: 'zap'
@@ -10,6 +13,8 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write    
     env:
       BUILD_PATH: _build
       SOURCE_PATH: paper
@@ -33,9 +38,8 @@ jobs:
         ${BIBTEX} ${BUILD_PATH}/${FILE}
         ${LATEX} -interaction=nonstopmode -halt-on-error -output-directory ${BUILD_PATH} ${MANUSCRIPT_PATH}.tex
         ${LATEX} -interaction=nonstopmode -halt-on-error -output-directory ${BUILD_PATH} ${MANUSCRIPT_PATH}.tex
-    - uses: SierraSoftworks/gh-releases@v1.0.4
+    - uses: ncipollo/release-action@v1
       with:
+        artifacts: "${BUILD_PATH}/${FILE}.pdf"
+        # bodyFile: "body.md"
         token: ${{ secrets.GITHUB_TOKEN }}
-        overwrite: 'true'
-        files: |
-          ${BUILD_PATH}/${FILE}.pdf
