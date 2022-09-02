@@ -26,6 +26,7 @@ jobs:
                              texlive-fonts-extra
     - name: Build paper
       run: |
+        cd ${MANUSCRIPT_PATH%/*}
         mkdir ${BUILD_PATH}
         ${LATEX} -interaction=nonstopmode -halt-on-error -output-directory ${BUILD_PATH} ${MANUSCRIPT_PATH##*/}.tex
         ${BIBTEX} ${BUILD_PATH##*/}.aux
