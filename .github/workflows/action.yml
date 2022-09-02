@@ -33,22 +33,9 @@ jobs:
         ${BIBTEX} ${BUILD_PATH}/${FILE}
         ${LATEX} -interaction=nonstopmode -halt-on-error -output-directory ${BUILD_PATH} ${MANUSCRIPT_PATH}.tex
         ${LATEX} -interaction=nonstopmode -halt-on-error -output-directory ${BUILD_PATH} ${MANUSCRIPT_PATH}.tex
-  release:
-    runs-on: ubuntu-latest
-    env:
-      BUILD_PATH: _build
-      FILE: whitepaper
-    needs: [build]
-    steps:
-    - uses: actions/checkout@master
-    - name: Create release
-      uses: Roang-zero1/github-create-release-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Create GitHub release
-      uses: Roang-zero1/github-upload-release-artifacts-action@master
+    - uses: SierraSoftworks/gh-releases@v1.0.4
       with:
-        args:
-        - _build/whitepaper.pdf
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        overwrite: 'true'
+        files: |
+          ${BUILD_PATH}/${FILE}.pdf
