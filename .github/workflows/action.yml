@@ -33,12 +33,19 @@ jobs:
         ${BIBTEX} ${BUILD_PATH}/${FILE}
         ${LATEX} -interaction=nonstopmode -halt-on-error -output-directory ${BUILD_PATH} ${MANUSCRIPT_PATH}.tex
         ${LATEX} -interaction=nonstopmode -halt-on-error -output-directory ${BUILD_PATH} ${MANUSCRIPT_PATH}.tex
-    - name: Push paper
-      run: |
-        git checkout --orphan ${GITHUB_REF##*/}-pdf
-        git rm -rf .github/
-        cd ${MANUSCRIPT_PATH%/*}
-        git rm -rf . 
-        git add -f ${BUILD_PATH}/${FILE}.pdf
-        git -c user.name='paper-maker' -c user.email='paper-maker' commit -m "update pdf"
-        git push -q -f https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} ${GITHUB_REF##*/}-pdf
+  release:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+    - uses: actions/checkout@master
+    - name: Create release
+      uses: Roang-zero1/github-create-release-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create GitHub release
+      uses: Roang-zero1/github-upload-release-artifacts-action@master
+      with:
+        args:
+        - ${BUILD_PATH}/${FILE}.pdf
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
