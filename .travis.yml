@@ -1,0 +1,20 @@
+sudo: required
+dist: xenial
+before_install:
+- sudo apt-get -qq update
+- sudo apt-get install -y texlive-base texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra
+script:
+- mkdir _build
+- pdflatex -interaction=nonstopmode -halt-on-error -output-directory _build paper/whitepaper.tex
+- bibtex _build/whitepaper
+- pdflatex -interaction=nonstopmode -halt-on-error -output-directory _build paper/whitepaper.tex
+- pdflatex -interaction=nonstopmode -halt-on-error -output-directory _build paper/whitepaper.tex
+deploy:
+  provider: releases
+  api_key:
+    secure: lNayCOjQRjFNmWxmUuiem6NJxsl25kvRyUEHPOfniNt1Eqou9beMw2GetD6E2RZSL3kLUNpAKttgozgcFvRuEd83pOozdCDgC2VBI8rLbxuI2RgtGAxaj3sJke5fI+b9O1Hm/5RklureGHOVjR2fHYdI9bkGPTUMyayTMWrXipXFpouo7Eq2NHze3CA8cRT5aMNbgEoeEwqWsmzAYFReKpXaqGksFIy54VStQLKnCFHt3ypt1dsDrAHdqphdVzDvw/E4ezkBQ2rgExzR9Lzhgwptz2JKbPvsTqEhyNpycCr3AntRITyTX5XoEPMB2VlBoLq495RZ4TKVbuwY/t/ylR04ciIS30TSv5M2pOPEvkbdBUNJSYLKKN2fLOCWcT7m+CtbT1ZESBuratqIytFBL7Hg0WvzWSGyxzZ+RSknUN/FwjxXsc/URK5HtcqsOWzC0VKfqSTEupjhPxbaAFOb/GJnJ/7N3QxTjDCyRK/+++azLbVWZRK4Aipib3ol1jZ4uebgE4PMRHa63iuUcZN/rByI8zVa1A9hOBrFehR7wf0gzqUeg/8lNM1ggjHSjWhPft9L+iJJyaf6a6nXRrXC2pF2VV0p6qfI9nssavx8ei2Crb0F68AsTfwI+2gNSPG4bmUv8+ESWpb87qWfpMgzUhRNu9b5I1ykLYEju6F83no=
+  file:
+  - _build/whitepaper.pdf
+  skip_cleanup: true
+  on:
+    tags: true
