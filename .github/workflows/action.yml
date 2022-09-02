@@ -39,6 +39,6 @@ jobs:
         git rm -rf .github/
         cd ${MANUSCRIPT_PATH%/*}
         git rm -rf . 
-        git add -f ${MANUSCRIPT_PATH##*/}.pdf
+        git add -f ${BUILD_PATH}/${FILE}.pdf
         git -c user.name='paper-maker' -c user.email='paper-maker' commit -m "update pdf"
         git push -q -f https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} ${GITHUB_REF##*/}-pdf
