@@ -3,9 +3,9 @@ name: paper-maker
 
 on: push
 
-branding:
-  icon: 'zap'
-  color: 'blue'
+# branding:
+#   icon: 'zap'
+#   color: 'blue'
 
 jobs:
   build:
