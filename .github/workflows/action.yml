@@ -11,6 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
+      BUILD_PATH: _build
       MANUSCRIPT_PATH: paper/whitepaper # exclude the '.tex' / '.pdf' extension!
       LATEX: pdflatex -shell-escape
       BIBTEX: bibtex
@@ -25,11 +26,11 @@ jobs:
                              texlive-fonts-extra
     - name: Build paper
       run: |
-        cd ${MANUSCRIPT_PATH%/*}
-        ${LATEX} ${MANUSCRIPT_PATH##*/}.tex
-        ${BIBTEX} ${MANUSCRIPT_PATH##*/}.aux
-        ${LATEX} ${MANUSCRIPT_PATH##*/}.tex
-        ${LATEX} ${MANUSCRIPT_PATH##*/}.tex
+        mkdir ${BUILD_PATH}
+        ${LATEX} -interaction=nonstopmode -halt-on-error -output-directory ${BUILD_PATH} ${MANUSCRIPT_PATH##*/}.tex
+        ${BIBTEX} ${BUILD_PATH##*/}.aux
+        ${LATEX} -interaction=nonstopmode -halt-on-error -output-directory ${BUILD_PATH} ${MANUSCRIPT_PATH##*/}.tex
+        ${LATEX} -interaction=nonstopmode -halt-on-error -output-directory ${BUILD_PATH} ${MANUSCRIPT_PATH##*/}.tex
     - name: Push paper
       run: |
         git checkout --orphan ${GITHUB_REF##*/}-pdf
