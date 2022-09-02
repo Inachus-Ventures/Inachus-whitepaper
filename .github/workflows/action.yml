@@ -30,7 +30,7 @@ jobs:
       run: |
         mkdir ${BUILD_PATH}
         ${LATEX} -interaction=nonstopmode -halt-on-error -output-directory ${BUILD_PATH} ${MANUSCRIPT_PATH}.tex
-        ${BIBTEX} ${BUILD_PATH}/file
+        ${BIBTEX} ${BUILD_PATH}/${FILE}
         ${LATEX} -interaction=nonstopmode -halt-on-error -output-directory ${BUILD_PATH} ${MANUSCRIPT_PATH}.tex
         ${LATEX} -interaction=nonstopmode -halt-on-error -output-directory ${BUILD_PATH} ${MANUSCRIPT_PATH}.tex
     - name: Push paper
