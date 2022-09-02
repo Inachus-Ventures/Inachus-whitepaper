@@ -49,6 +49,6 @@ jobs:
       uses: Roang-zero1/github-upload-release-artifacts-action@master
       with:
         args:
-        - ${BUILD_PATH}/${FILE}.pdf
+        - _build/whitepaper.pdf
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
