@@ -1,6 +1,7 @@
 sudo: required
 dist: trusty
 before_install:
+- wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
 - sudo apt-get -qq update && sudo apt-get install -y --no-install-recommends texlive-fonts-recommended
   texlive-latex-extra texlive-fonts-extra dvipng texlive-latex-recommended
 script:
