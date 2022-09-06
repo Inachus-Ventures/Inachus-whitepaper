@@ -4,11 +4,7 @@ before_install:
 - sudo apt-get -qq update
 - sudo apt-get install -y texlive-base texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra
 script:
-- mkdir _build
-- pdflatex -interaction=nonstopmode -halt-on-error -output-directory _build paper/whitepaper.tex
-- bibtex _build/whitepaper
-- pdflatex -interaction=nonstopmode -halt-on-error -output-directory _build paper/whitepaper.tex
-- pdflatex -interaction=nonstopmode -halt-on-error -output-directory _build paper/whitepaper.tex
+- scripts/build.sh _build paper
 deploy:
   provider: releases
   api_key:
