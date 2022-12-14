@@ -1,3 +1,5 @@
+# Only build tags
+if: tag IS present
 sudo: required
 dist: xenial
 before_install:
